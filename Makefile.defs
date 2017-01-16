@@ -1,0 +1,26 @@
+docker-build: 
+	      docker build -t $(DOCKER_REPOSITORY) .
+
+docker-run: docker-build
+	    docker images $(DOCKER_REPOSITORY) -q | xargs docker run -p $(DOCKER_PORTS) --name $(DOCKER_NAME) --network "mssql"
+
+docker-start: docker-build
+	      docker images $(DOCKER_REPOSITORY) -q | xargs docker run -d -p $(DOCKER_PORTS) --name $(DOCKER_NAME) --network "mssql"
+
+docker-restart: docker-build docker-stop
+		docker ps --filter "status=exited" --filter "ancestor=$(DOCKER_REPOSITORY)" -q | xargs docker rm
+		docker images $(DOCKER_REPOSITORY) -q | xargs docker run -d -p $(DOCKER_PORTS) --name $(DOCKER_NAME) --network "mssql"
+
+docker-purge: docker-rmi
+
+docker-create-network:
+	docker network create mssql
+
+docker-stop:
+	docker ps -a -q --filter "ancestor=$(DOCKER_REPOSITORY)" | xargs -t docker stop
+
+docker-rm: docker-stop
+	   docker ps -a -q --filter "ancestor=$(DOCKER_REPOSITORY)" | xargs -t docker rm
+
+docker-rmi: docker-stop docker-rm
+	    docker images $(DOCKER_REPOSITORY) -q | xargs -t docker rmi

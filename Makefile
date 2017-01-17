@@ -1,7 +1,7 @@
 DOCKER_REPOSITORY=mssql/service
 DOCKER_PORTS="1433:1433"
 DOCKER_NAME=mssql-server
-SA_PASSWORD=SuperGood#P4$$
+SA_PASSWORD=SuperGoodP4_Ss
 
 include ./Makefile.defs
 

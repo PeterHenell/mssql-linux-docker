@@ -1,4 +1,7 @@
 DOCKER_REPOSITORY=mssql/service
+DOCKER_PORTS="1433:1433"
+DOCKER_NAME=mssql-server
+SA_PASSWORD="<YourStrong!Passw0rd>"
 
 include ./Makefile.defs
 

@@ -5,8 +5,10 @@ docker-run: docker-build
 	    docker images $(DOCKER_REPOSITORY) -q | xargs docker run -p $(DOCKER_PORTS) --name $(DOCKER_NAME) --network "mssql" -e 'SA_PASSWORD=$(SA_PASSWORD)'
 
 docker-start: docker-build
-	    docker images $(DOCKER_REPOSITORY) -q | xargs docker run -d -p $(DOCKER_PORTS) --name $(DOCKER_NAME) --network "mssql" -e 'SA_PASSWORD=$(SA_PASSWORD)'
+    docker images $(DOCKER_REPOSITORY) -q | xargs docker run -d -p $(DOCKER_PORTS) --name $(DOCKER_NAME) --network "mssql" -e 'SA_PASSWORD=$(SA_PASSWORD)'
 
+docker-install-tsqlt: docker-start
+	mvn install -Ddatabase.server=localhost -Ddatabase.username=sa -Ddatabase.password=$(SA_PASSWORD)
 
 docker-restart: docker-build docker-stop
 		docker ps --filter "status=exited" --filter "ancestor=$(DOCKER_REPOSITORY)" -q | xargs docker rm

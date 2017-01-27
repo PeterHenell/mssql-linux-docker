@@ -1,7 +1,6 @@
 FROM microsoft/mssql-server-linux
 
 ENV ACCEPT_EULA=Y
-#ENV SA_PASSWORD=SuperGood#P4$$
 ENV COLLATION=Latin1_General_CI_AS
 
 #ADD sources.list /etc/apt/sources.list.d/sources.list
